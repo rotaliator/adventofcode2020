@@ -13,10 +13,8 @@
 (comment
   (->> (for [i     input
              j     input
-             :when (not= i j)]
-         (when (= 2020 (+ i j))
-           (* i j)))
-       (filter identity)
+             :when (= 2020 (+ i j))]
+         (* i j))
        (first))
   ;; => 974304
   )
@@ -26,10 +24,8 @@
   (->> (for [i     input
              j     input
              k     input
-             :when (not= i j k)]
-         (when (= 2020 (+ i j k))
-           (* i j k)))
-       (filter identity)
+             :when (= 2020 (+ i j k))]
+         (* i j k))
        (first))
   ;; => 236430480
   )
