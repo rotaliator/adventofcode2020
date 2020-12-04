@@ -44,22 +44,25 @@ iyr:2011 ecl:brn hgt:59in" #"\n\n"))
 ;; Part 2
 
 ;; byr (Birth Year) - four digits; at least 1920 and at most 2002.
-(s/def ::byr (fn [x]
-               (and (= 4 (.length x))
-                    (re-matches #"^\d+" x)
-                    (<= 1920 (. Integer parseInt x) 2002))))
+(s/def ::byr (s/and
+              string?
+              #(= 4 (.length %))
+              #(re-matches #"^\d+" %)
+              #(<= 1920 (. Integer parseInt %) 2002)))
 
 ;; iyr (Issue Year) - four digits; at least 2010 and at most 2020.
-(s/def ::iyr (fn [x]
-               (and (= 4 (.length x))
-                    (re-matches #"^\d+" x)
-                    (<= 2010 (. Integer parseInt x) 2020))))
+(s/def ::iyr (s/and
+              string?
+              #(= 4 (.length %))
+              #(re-matches #"^\d+" %)
+              #(<= 2010 (. Integer parseInt %) 2020)))
 
 ;; eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
-(s/def ::eyr (fn [x]
-               (and (= 4 (.length x))
-                    (re-matches #"^\d+" x)
-                    (<= 2020 (. Integer parseInt x) 2030))))
+(s/def ::eyr (s/and
+              string?
+              #(= 4 (.length %))
+              #(re-matches #"^\d+" %)
+              #(<= 2020 (. Integer parseInt %) 2030)))
 
 ;; hgt (Height) - a number followed by either cm or in:
 ;; If cm, the number must be at least 150 and at most 193.
