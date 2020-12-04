@@ -1,4 +1,4 @@
-(ns adventofcode2020.day3
+(ns adventofcode2020.day4
   (:require [clojure.string :as str]
             [clojure.set :refer [subset?]]
             [clojure.spec.alpha :as s]))
