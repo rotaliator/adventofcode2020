@@ -46,42 +46,39 @@ iyr:2011 ecl:brn hgt:59in" #"\n\n"))
 ;; byr (Birth Year) - four digits; at least 1920 and at most 2002.
 (s/def ::byr (fn [x]
                (and (= 4 (.length x))
-                    (re-matches #"[0-9]*" x)
+                    (re-matches #"^\d+" x)
                     (<= 1920 (. Integer parseInt x) 2002))))
 
 ;; iyr (Issue Year) - four digits; at least 2010 and at most 2020.
 (s/def ::iyr (fn [x]
                (and (= 4 (.length x))
-                    (re-matches #"[0-9]*" x)
+                    (re-matches #"^\d+" x)
                     (<= 2010 (. Integer parseInt x) 2020))))
 
 ;; eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
 (s/def ::eyr (fn [x]
                (and (= 4 (.length x))
-                    (re-matches #"[0-9]*" x)
+                    (re-matches #"^\d+" x)
                     (<= 2020 (. Integer parseInt x) 2030))))
 
 ;; hgt (Height) - a number followed by either cm or in:
 ;; If cm, the number must be at least 150 and at most 193.
 ;; If in, the number must be at least 59 and at most 76.
 (s/def ::hgt (fn [x]
-               (let [[_ val uom] (re-matches #"(\d*)([a-z]*)" x)
-                     val         (. Integer parseInt val)]
-                 (cond
-                   (= uom "cm")
-                   (<= 150 val 193)
-
-                   (= uom "in")
-                   (<= 59 val 76)))))
+               (let [[_ val uom] (re-matches #"^(\d+)(in|cm)" x)]
+                 (case uom
+                   "cm" (<= 150 (. Integer parseInt val) 193)
+                   "in" (<= 59 (. Integer parseInt val) 76)
+                   false))))
 
 ;; hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
-(s/def ::hcl #(re-matches #"^#[0-9:a-f]{6}" %))
+(s/def ::hcl #(re-matches #"^#[0-9a-f]{6}" %))
 
 ;; ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
 (s/def ::ecl #(get #{"amb" "blu" "brn" "gry" "grn" "hzl" "oth"} %))
 
 ;; pid (Passport ID) - a nine-digit number, including leading zeroes.
-(s/def ::pid #(re-matches #"[0-9]{9}" %))
+(s/def ::pid #(re-matches #"^[0-9]{9}" %))
 
 ;; cid (Country ID) - ignored, missing or not.
 (s/def ::cid (constantly true))
