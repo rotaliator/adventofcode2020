@@ -23,3 +23,15 @@
   (apply max (map to-seat-number input))
 ;; => 861
   )
+
+;; part 2
+(comment
+  (->> (map to-seat-number input)
+       sort
+       (partition 2 1)
+       (map (fn [[b a]] [[a b] (- a b)]))
+       (filter #(not= (second %) 1))
+       ffirst
+       ((fn [[a b]] (/ (+ a b) 2))))
+;; => 633
+  )
