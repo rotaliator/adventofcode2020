@@ -20,14 +20,12 @@ dotted black bags contain no other bags."
 (defn parse-line [l]
   (let [[bag content] (str/split l #" bags contain ")
         contains      (re-seq #"(\d+) (\w+ \w+)\D+" content)
-        contains-map  (into {} (map (juxt last second) contains))]
+        contains-map  (into {} (map (juxt last #(Integer/parseInt (second %))) contains))]
     [bag contains-map]))
 
-(def parsed-input (mapv parse-line input))
+(def parsed-input (into {} (mapv parse-line input)))
 
-(def input-as-map (into {} parsed-input))
-
-(def input-as-map-rev (->> (for [[k vals] input-as-map]
+(def input-as-map-rev (->> (for [[k vals] parsed-input]
                                  (for [[bag _] vals]
                                    {bag [k]}))
                           (flatten)
@@ -44,3 +42,24 @@ dotted black bags contain no other bags."
              bags))))
 ;; => 177
 ;; part 2
+
+(def test-input2
+  (->
+   "shiny gold bags contain 2 dark red bags.
+dark red bags contain 2 dark orange bags.
+dark orange bags contain 2 dark yellow bags.
+dark yellow bags contain 2 dark green bags.
+dark green bags contain 2 dark blue bags.
+dark blue bags contain 2 dark violet bags.
+dark violet bags contain no other bags."
+   str/split-lines))
+
+(def parsed-input2 (into {} (mapv parse-line test-input2)))
+
+(defn bags-in-bag [bag]
+  (apply +
+         (for [[b quan] (get parsed-input bag)]
+           (+ quan (* quan (bags-in-bag b))))))
+
+(bags-in-bag "shiny gold")
+;; => 34988
