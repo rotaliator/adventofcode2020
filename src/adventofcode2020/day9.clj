@@ -19,7 +19,25 @@
          (filter identity)
          (first))))
 
-(invalid-input test-input 5)
-;; => 127
-(invalid-input input 25)
-;; => 1398413738
+(comment
+  (invalid-input test-input 5)
+  ;; => 127
+  (invalid-input input 25)
+  ;; => 1398413738
+  )
+
+;; part 2
+(def my-number 1398413738)
+
+(defn find-number [input n window-size]
+  (reduce
+   (fn [_ x]
+     (if (= n (reduce + x))
+       (reduced (->> x sort ((juxt first last)) (apply +)))
+       (if reduced? nil x)))
+   (partition window-size 1 input)))
+
+(->> (map (partial find-number input my-number) (range 2 51))
+     (filter identity)
+     (first))
+;; => 169521051
