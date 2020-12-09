@@ -72,19 +72,3 @@
   (run-with-fix parsed-input)
 ;; => 1056
   )
-
-
-
-
-
-
-
-
-
-
-(fix-at-instr 7)
-
-
-
-
-(run-repaired (fix-at-instr 7))
