@@ -1,4 +1,4 @@
-(ns adventofcode2020.day8
+(ns adventofcode2020.day9
   (:require [clojure.java.io :as io]))
 
 (def test-input (->> "day9_sample.txt" io/resource io/reader line-seq (mapv #(Long/parseLong %))))
